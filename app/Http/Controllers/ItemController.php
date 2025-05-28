@@ -16,7 +16,7 @@ class ItemController extends Controller
     public function store(Request $request)
     {
         Item::create($request->validate([
-            'nama' => 'required',
+            'namaBarang' => 'required',
             'jumlah' => 'required|integer'
         ]));
         return redirect()->route('items.index');

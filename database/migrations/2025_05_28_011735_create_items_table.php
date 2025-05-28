@@ -15,7 +15,7 @@ class CreateItemsTable extends Migration
     {
         Schema::create('items', function (Blueprint $table) {
             $table->id();
-            $table->string('nama');
+            $table->string('namaBarang');
             $table->integer('jumlah');
             $table->timestamps();
         });
