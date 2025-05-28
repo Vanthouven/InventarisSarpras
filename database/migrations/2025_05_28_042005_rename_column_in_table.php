@@ -7,9 +7,9 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up()
     {
-        Schema::table('items', function (Blueprint $table) {
-            $table->renameColumn('nama', 'namaBarang');
-        });
+        // Schema::table('items', function (Blueprint $table) {
+        //     $table->renameColumn('nama', 'namaBarang'); // Aktifkan ini untuk mengubah nama colom
+        // });
     }
 
     public function down()

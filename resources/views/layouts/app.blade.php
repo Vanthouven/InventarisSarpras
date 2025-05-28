@@ -10,6 +10,7 @@
 
 <body>
     <nav>
+        <a href="{{ route('home') }}">Home</a>
         <a href="{{ route('items.index') }}">Inventaris</a>
         <a href="{{ route('dashboard') }}">Dashboard</a>
     </nav>
