@@ -10,9 +10,13 @@ class Borrowing extends Model
     use HasFactory;
 
     protected $fillable = [
-        'nama',
-        'role',
-        'jurusan',
-        'kelas',
+        'nama','role','jurusan','kelas',
     ];
+
+    public function items()
+    {
+        return $this->belongsToMany(Item::class, 'borrowing_item')
+                    ->withPivot('quantity')
+                    ->withTimestamps();
+    }
 }

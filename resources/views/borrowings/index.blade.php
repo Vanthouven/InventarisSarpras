@@ -11,7 +11,9 @@
                 <th class="border px-2 py-1">Nama</th>
                 <th class="border px-2 py-1">Role</th>
                 <th class="border px-2 py-1">Jurusan</th>
+                <th class="border px-2 py-1">Barang Dipinjam</th>
                 <th class="border px-2 py-1">Tanggal</th>
+                <th class="border px-2 py-1">Jumlah</th>
             </tr>
         </thead>
         <tbody>
@@ -22,6 +24,28 @@
                 <td class="border px-2 py-1">{{ ucfirst($b->role) }}</td>
                 <td class="border px-2 py-1">{{ $b->jurusan ?? '-' }}</td>
                 <td class="border px-2 py-1">{{ $b->created_at->format('d/m/Y') }}</td>
+                <td class="border px-2 py-1">
+                    @if($b->items->count())
+                        <ul class="list-disc list-inside">
+                            @foreach($b->items as $item)
+                                <li>{{ $item->namaBarang }}</li>
+                            @endforeach
+                        </ul>
+                    @else
+                        -
+                    @endif
+                </td>
+                <td class="border px-2 py-1">
+                    @if($b->items->count())
+                        <ul class="list-decimal list-inside">
+                            @foreach($b->items as $item)
+                                <li>{{ $item->pivot->quantity }}</li>
+                            @endforeach
+                        </ul>
+                    @else
+                        -
+                    @endif
+                </td>
             </tr>
             @endforeach
         </tbody>

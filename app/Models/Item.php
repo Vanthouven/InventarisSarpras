@@ -9,4 +9,11 @@ class Item extends Model
 {
     use HasFactory;
     protected $fillable = ['namaBarang', 'jumlah'];
+
+    public function borrowings()
+    {
+        return $this->belongsToMany(Borrowing::class, 'borrowing_item')
+                    ->withPivot('quantity')
+                    ->withTimestamps();
+    }
 }

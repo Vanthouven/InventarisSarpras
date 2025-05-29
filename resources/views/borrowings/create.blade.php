@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Peminjaman</title>
 </head>
 <body>
     @extends('layouts.app')
@@ -21,12 +20,14 @@
     <form action="{{ route('borrowings.store') }}" method="POST" class="space-y-4">
         @csrf
 
+        <!-- Nama Peminjam -->
         <div>
             <label class="block">Nama Peminjam</label>
             <input type="text" name="nama" value="{{ old('nama') }}" class="border p-2 w-full" required>
             @error('nama')<span class="text-red-500">{{ $message }}</span>@enderror
         </div>
 
+        <!-- Role -->
         <div>
             <label class="block">Role</label>
             <select name="role" id="role" class="border p-2 w-full" required>
@@ -37,6 +38,7 @@
             @error('role')<span class="text-red-500">{{ $message }}</span>@enderror
         </div>
 
+        <!-- Fields for Siswa -->
         <div id="siswa-fields" class="hidden space-y-4">
             <div>
                 <label class="block">Jurusan</label>
@@ -61,19 +63,64 @@
             </div>
         </div>
 
-        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Submit</button>
+        <!-- Pilih Barang dan Jumlah -->
+        <div id="items-wrapper" class="space-y-2">
+            <label class="block font-semibold">Barang yang Dipinjam</label>
+            <div class="item-row flex space-x-2 items-center">
+                <select name="items[]" class="border p-2 flex-1" required>
+                    <option value="">-- Pilih barang --</option>
+                    @foreach($items as $item)
+                        <option value="{{ $item->id }}" {{ (old('items') && in_array($item->id, old('items'))) ? 'selected' : '' }}>
+                            (nama item: {{ $item->namaBarang }}) (stok: {{ $item->jumlah }})
+                        </option>
+                    @endforeach
+                </select>
+                <input type="number" name="quantity[]" min="1" value="{{ old('quantity.0', 1) }}" placeholder="Jumlah" class="border p-2 w-24" required>
+                <!-- <button type="button" class="remove-item bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded">–</button> ini juga aktifkan bila perlu-->
+            </div>
+            @error('items')<span class="text-red-500">{{ $message }}</span>@enderror
+            @error('items.*')<span class="text-red-500">{{ $message }}</span>@enderror
+            @error('quantity.*')<span class="text-red-500">{{ $message }}</span>@enderror
+        </div>
+
+        <!-- <button type="button" id="add-item" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
+            + Tambah Barang
+        </button> aktifkan bial perlu-->
+
+        <!-- Submit -->
+        <div>
+            <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded">Submit</button>
+        </div>
     </form>
 </div>
 
 <script>
+    // Toggle fields untuk siswa
     function toggleSiswaFields() {
-        var nilai = document.getElementById('role').value;
-        document.getElementById('siswa-fields')
-            .classList.toggle('hidden', nilai !== 'siswa');
+        const role = document.getElementById('role').value;
+        document.getElementById('siswa-fields').classList.toggle('hidden', role !== 'siswa');
     }
-
     document.getElementById('role').addEventListener('change', toggleSiswaFields);
     toggleSiswaFields();
+
+    // Tambah / hapus baris barang
+    document.getElementById('add-item').addEventListener('click', () => {
+        const wrapper = document.getElementById('items-wrapper');
+        const row = wrapper.querySelector('.item-row').cloneNode(true);
+        // Reset nilai
+        row.querySelector('select').value = '';
+        row.querySelector('input').value = 1;
+        wrapper.appendChild(row);
+    });
+
+    document.getElementById('items-wrapper').addEventListener('click', e => {
+        if (e.target.classList.contains('remove-item')) {
+            const rows = document.querySelectorAll('.item-row');
+            if (rows.length > 1) {
+                e.target.closest('.item-row').remove();
+            }
+        }
+    });
 </script>
 @endsection
 </body>
