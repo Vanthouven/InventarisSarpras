@@ -6,6 +6,11 @@ use App\Models\Item; // Pastikan model diimpor
 
 class ItemController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
         $items = Item::all();

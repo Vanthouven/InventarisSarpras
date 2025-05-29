@@ -11,8 +11,15 @@
 <body>
     <nav>
         <a href="{{ route('home') }}">Home</a>
-        <a href="{{ route('items.index') }}">Inventaris</a>
-        <a href="{{ route('dashboard') }}">Dashboard</a>
+        <a href="{{ route('borrowings.create') }}">Peminjaman</a>
+        <a href="{{ route('borrowings.index') }}">Daftar Peminjaman</a>
+
+        @auth
+            @if(auth()->user()->role !== 'viewer')
+                <a href="{{ route('items.index') }}">Inventaris</a>
+                <a href="{{ route('dashboard') }}">Dashboard</a>
+            @endif
+        @endauth
     </nav>
     <div class="container">
         @yield('content')

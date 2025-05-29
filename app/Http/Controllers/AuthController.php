@@ -49,7 +49,7 @@ class AuthController extends Controller
 
         // regenerasi session dan redirect ke dashboard
         $req->session()->regenerate();
-        return redirect()->route('home');
+        return redirect()->intended(route('home'));
     }
 
     // Dashboard (bisa Anda buat switch untuk tiap role)

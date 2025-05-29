@@ -3,6 +3,7 @@
 use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BorrowingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,13 +18,22 @@ use App\Http\Controllers\AuthController;
 
 use App\Http\Controllers\ItemController;
 
-Route::get('/items', [ItemController::class, 'index'])->name('items.index');
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-Route::post('/items', [ItemController::class, 'store'])->name('items.store');
-
+// Public
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'doLogin'])->name('login.submit');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-// Dashboard generik, semua role akan diarahkan ke sini
-Route::middleware('auth')->get('/home', [AuthController::class, 'home'])->name('home');
+// Routes yang hanya untuk admin atau petugas
+Route::middleware(['auth', 'role:admin,petugas'])->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/items',     [ItemController::class,    'index'])->name('items.index');
+    Route::post('/items',    [ItemController::class,    'store'])->name('items.store');
+});
+
+// Route untuk semua yang sudah login
+Route::middleware('auth')->group(function () {
+    Route::get('/home',            [AuthController::class,    'home'])->name('home');
+    Route::get('/borrowings',      [BorrowingController::class,'index'])->name('borrowings.index');
+    Route::get('/borrowings/create', [BorrowingController::class,'create'])->name('borrowings.create');
+    Route::post('/borrowings',     [BorrowingController::class,'store'])->name('borrowings.store');
+});
