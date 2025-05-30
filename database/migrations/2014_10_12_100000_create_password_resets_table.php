@@ -14,6 +14,9 @@ return new class extends Migration {
             $table->string('jurusan')->nullable();
             $table->string('kelas')->nullable();
             $table->timestamps();
+            $table->enum('status', ['belum_kembali', 'sudah_kembali'])
+                  ->default('belum_kembali')
+                  ->after('kelas');
         });
     }
 

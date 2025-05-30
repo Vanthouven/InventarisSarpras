@@ -25,6 +25,7 @@ class BorrowingController extends Controller
             'nama'    => 'required|string|max:255',
             'role'    => 'required|in:siswa,guru',
             'jurusan' => 'nullable|required_if:role,siswa|string',
+            "kelas"   => 'nullable|required_if:role,siswa|string',
             'items'      => 'required|array|min:1',
             'items.*'    => 'exists:items,id',
             'quantity'   => 'required|array',
@@ -92,5 +93,27 @@ class BorrowingController extends Controller
     {
         $borrowings = Borrowing::latest()->paginate(10);
         return view('borrowings.index', compact('borrowings'));
+    }
+
+        public function markReturned($id)
+    {
+        $borrowing = Borrowing::findOrFail($id);
+
+        if ($borrowing->status === 'sudah_kembali') {
+            return back()->with('info', 'Barang sudah ditandai kembali sebelumnya.');
+        }
+
+        DB::transaction(function() use ($borrowing) {
+            // 1) Update status
+            $borrowing->update(['status' => 'sudah_kembali']);
+
+            // 2) Kembalikan stok ke items
+            foreach ($borrowing->items as $item) {
+                Item::where('id', $item->id)
+                    ->increment('jumlah', $item->pivot->quantity);
+            }
+        });
+
+        return back()->with('success', 'Status dikembalikan dan stok sudah dipulihkan.');
     }
 }

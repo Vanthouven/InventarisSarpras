@@ -15,6 +15,7 @@
     <input type="number" name="jumlah" placeholder="Jumlah" required>
     <button type="submit">Tambah</button>
 </form>
+<p>Total Barang: {{ $total_items }}</p>
 <ul>
     @foreach ($items as $item)
     <li>{{ $item->namaBarang }} - {{ $item->jumlah }}</li>

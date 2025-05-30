@@ -1,10 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-<body>
+
     @extends('layouts.app')
 
 @section('content')
@@ -30,16 +24,16 @@
         <!-- Role -->
         <div>
             <label class="block">Role</label>
-            <select name="role" id="role" class="border p-2 w-full" required>
+            <select name="role" id="role" class="border p-2 w-full" required onchange="toggleFields()">
                 <option value="">-- Pilih --</option>
                 <option value="siswa" {{ old('role')=='siswa'?'selected':'' }}>Siswa</option>
-                <option value="guru"  {{ old('role')=='guru' ?'selected':'' }}>Guru</option>
+                <option value="guru"  {{ old('role')=='guru'?'selected':'' }}>Guru</option>
             </select>
             @error('role')<span class="text-red-500">{{ $message }}</span>@enderror
         </div>
 
         <!-- Fields for Siswa -->
-        <div id="siswa-fields" class="hidden space-y-4">
+        <div id="siswa-fields" class="space-y-4 {{ old('role') !== 'siswa' ? 'hidden' : '' }}">
             <div>
                 <label class="block">Jurusan</label>
                 <select name="jurusan" class="border p-2 w-full">
@@ -93,7 +87,9 @@
         </div>
     </form>
 </div>
+@endsection
 
+@push('scripts')
 <script>
     // Toggle fields untuk siswa
     function toggleSiswaFields() {
@@ -121,7 +117,12 @@
             }
         }
     });
+
+    function toggleFields() {
+        var role = document.getElementById('role').value;
+        document.getElementById('siswa-fields').style.display = (role === 'guru') ? 'none' : 'block';
+    }
+    // inisiasi
+    toggleFields();
 </script>
-@endsection
-</body>
-</html>
+@endpush

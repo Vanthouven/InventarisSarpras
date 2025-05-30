@@ -10,7 +10,7 @@ class Borrowing extends Model
     use HasFactory;
 
     protected $fillable = [
-        'nama','role','jurusan','kelas',
+        'nama','role','jurusan','kelas','status'
     ];
 
     public function items()

@@ -14,7 +14,8 @@ class ItemController extends Controller
     public function index()
     {
         $items = Item::all();
-        return view('items.index', compact('items'));
+        $total_items = Item::count();
+        return view('items.index', compact('items', 'total_items'));
     }
 
 

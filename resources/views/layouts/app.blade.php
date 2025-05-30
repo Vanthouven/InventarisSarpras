@@ -17,7 +17,7 @@
         @auth
             @if(auth()->user()->role !== 'viewer')
                 <a href="{{ route('items.index') }}">Inventaris</a>
-                <a href="{{ route('dashboard') }}">Dashboard</a>
+                <!-- <a href="{{ route('dashboard') }}">Dashboard</a> -->
             @endif
         @endauth
     </nav>

@@ -36,4 +36,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/borrowings',      [BorrowingController::class,'index'])->name('borrowings.index');
     Route::get('/borrowings/create', [BorrowingController::class,'create'])->name('borrowings.create');
     Route::post('/borrowings',     [BorrowingController::class,'store'])->name('borrowings.store');
+    Route::post('/borrowings/{id}/return', [BorrowingController::class, 'markReturned'])
+         ->name('borrowings.return');
 });
