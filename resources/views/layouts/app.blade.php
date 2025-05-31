@@ -15,6 +15,12 @@
         <a href="{{ route('borrowings.index') }}">Daftar Peminjaman</a>
 
         @auth
+            @if(auth()->user()->role == 'admin')
+                <a href="{{ route('accounts.index') }}">Manajemen Akun</a>
+            @endif
+        @endauth
+
+        @auth
             @if(auth()->user()->role !== 'viewer')
                 <a href="{{ route('items.index') }}">Inventaris</a>
                 <!-- <a href="{{ route('dashboard') }}">Dashboard</a> -->

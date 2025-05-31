@@ -13,6 +13,12 @@ class AuthController extends Controller
     // Tampilkan form login
     public function showLogin()
     {
+        // Jika belum ada satupun akun, tampilkan halaman khusus tanpa layout
+        if (User::count() === 0) {
+            return view('auth.first_account');
+        }
+    
+        // Jika sudah ada akun, tampilkan login biasa (pakai layout)
         return view('auth.login');
     }
 

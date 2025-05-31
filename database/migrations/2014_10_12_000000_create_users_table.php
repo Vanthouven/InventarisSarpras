@@ -20,8 +20,8 @@ class CreateUsersTable extends Migration
             // Password untuk admin atau petugas, nullable bagi viewer
             $table->string('password')->nullable();
             // Role: admin, petugas, atau viewer (viewer tidak input name/password)
-            $table->enum('role', ['admin', 'petugas', 'viewer'])->default('viewer');
-            // Token untuk remember-me
+            $table->enum('role', ['admin', 'petugas', 'viewer']);
+            $table->timestamps();
         });
     }
 
@@ -33,5 +33,8 @@ class CreateUsersTable extends Migration
     public function down()
     {
         Schema::dropIfExists('users');
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropTimestamps();
+        });
     }
 }
