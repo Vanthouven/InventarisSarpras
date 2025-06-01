@@ -23,8 +23,11 @@ class ItemController extends Controller
 
         // Jika Anda butuh total item, Anda bisa menambahkannya:
         // $total_items = $items->count();
+        $lowStock   = Item::where('jumlah', '<', 5)
+                  ->orderBy('jumlah', 'asc')
+                  ->get();
 
-        return view('items.index', compact('items'));
+        return view('items.index', compact('items', 'lowStock'));
     }
 
     /**
