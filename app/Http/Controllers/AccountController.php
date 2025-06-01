@@ -14,7 +14,6 @@ class AccountController extends Controller
      */
     public function index()
     {
-        // Ambil users dengan kolom created_at yang sudah ter‐format di SQL
         $users = User::select([
                 'id',
                 'name',
@@ -32,31 +31,30 @@ class AccountController extends Controller
      */
     public function create()
     {
-        // Daftar role yang boleh dipilih admin
         $roles = ['admin', 'petugas', 'viewer'];
         return view('accounts.create', compact('roles'));
     }
 
     /**
      * Simpan akun baru ke database.
+     * Jika nama sudah terpakai, langsung kembalikan pesan "akun sudah ada".
      */
     public function store(Request $request)
     {
-        // Validasi masukan
+        // 1) Validasi dasar + pastikan `name` unik di tabel `users`
         $data = $request->validate([
-            'name'     => 'required|string|max:255',
-            'password' => [
-                'required',
-                'confirmed',
-            ],
-            'role'     => 'required|in:admin,petugas,viewer',
+            'name' => 'required|string|max:255|unique:users,name',
+            'password' => ['required', 'confirmed'],
+            'role' => 'required|in:admin,petugas,viewer',
+        ], [
+            'name.unique' => 'Akun dengan nama tersebut sudah ada.',
         ]);
 
-        // Simpan user
+        // 2) Simpan user baru (hash password terlebih dahulu)
         User::create([
-            'name'     => $data['name'],
+            'name' => $data['name'],
             'password' => Hash::make($data['password']),
-            'role'     => $data['role'],
+            'role' => $data['role'],
         ]);
 
         return redirect()->route('accounts.index')
@@ -68,13 +66,11 @@ class AccountController extends Controller
      */
     public function destroy(User $user)
     {
-        // Opsional: jika user itu adalah self (admin itu sendiri), abort
         if (auth()->id() === $user->id) {
             return back()->with('error', 'Tidak dapat menghapus akun sendiri.');
         }
 
         $user->delete();
-
         return back()->with('success', 'Akun berhasil dihapus.');
     }
 }
