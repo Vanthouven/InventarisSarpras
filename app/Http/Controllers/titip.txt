@@ -46,7 +46,7 @@ public function doLogin(Request $req)
     // 5) Redirect berdasarkan role
     if ($user->role === 'admin' || $user->role === 'petugas') {
         // Keduanya menuju /dashboard
-        return redirect()->intended(route('home'));
+        return redirect()->intended(route('dashboard'));
     }
 
     // Jika viewer
