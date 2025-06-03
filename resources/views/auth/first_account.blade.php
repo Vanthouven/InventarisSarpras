@@ -55,14 +55,12 @@
                            required>
                 </div>
 
-                {{-- Pilih Role (biasanya admin) --}}
+                {{-- Pilih Role --}}
                 <div>
                     <label class="block font-medium">Pilih Role</label>
                     <select name="role" class="border p-2 w-full rounded" required>
                         <option value="">-- Pilih Role --</option>
                         <option value="admin" {{ old('role')=='admin'?'selected':'' }}>Admin</option>
-                        <option value="petugas" {{ old('role')=='petugas'?'selected':'' }}>Petugas</option>
-                        <option value="viewer" {{ old('role')=='viewer'?'selected':'' }}>Viewer</option>
                     </select>
                     @error('role')
                         <span class="text-red-500 text-sm">{{ $message }}</span>

@@ -81,7 +81,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4-8-4m16 0v10l-8 4-8-4V7"></path>
                             </svg>
                         </div>
-                        <span class="text-gray-100 font-bold text-lg">Inventaris App</span>
+                        <span class="text-gray-100 font-bold text-lg">SmexaPras</span>
                     </div>
                 </div>
 
