@@ -62,3 +62,11 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+## Cara Instalasi
+
+1. Download file project
+2. Buat database dengan nama sapras
+3. Import database yang sudah di sediakan "sapras.sql"
+4. Jalankan "php artisan migrate"
+5. Jalankan "php artisan serve"
